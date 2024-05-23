@@ -144,14 +144,35 @@ toggleBox = UI.createBox(controlSection, "Toggle Macro", running, updateStatus)
 
 # Editor
 buttonSection = UI.createSection(editorTab, "Buttons")
-triggerSection = UI.createSection(editorTab, "Triggers")
-joystickSection = UI.createSection(editorTab, "Joysticks")
+dpadSection = UI.createSection(editorTab, "DPad")
 editorOptionsSection = UI.createSection(editorTab, "Options")
 xlabel = UI.createLabel(buttonSection, "X Binding")
-fullKeys = pyautogui.KEYBOARD_KEYS
-fullKeys.append('Unmapped')
+fullKeys = ["Unmapped"]
+for keycode in pyautogui.KEYBOARD_KEYS:
+    fullKeys.append(keycode)
 xKeyDropdown = UI.createDropdown(buttonSection, fullKeys, ENABLE_TYPING_IN_KEY_DROPDOWNS)
 circleLabel = UI.createLabel(buttonSection, "Circle Binding")
 circleKeyDropdown = UI.createDropdown(buttonSection, fullKeys, ENABLE_TYPING_IN_KEY_DROPDOWNS)
+squareLabel = UI.createLabel(buttonSection, "Square Binding")
+squareKeyDropdown = UI.createDropdown(buttonSection, fullKeys, ENABLE_TYPING_IN_KEY_DROPDOWNS)
+triangleLabel = UI.createLabel(buttonSection, "Triangle Binding")
+triangleKeyDropdown = UI.createDropdown(buttonSection, fullKeys, ENABLE_TYPING_IN_KEY_DROPDOWNS)
+upLabel = UI.createLabel(dpadSection, "Up")
+upDpadDropdown = UI.createDropdown(dpadSection, fullKeys, ENABLE_TYPING_IN_KEY_DROPDOWNS)
+rightLabel = UI.createLabel(dpadSection, "Right")
+rightDPadDropdown = UI.createDropdown(dpadSection, fullKeys, ENABLE_TYPING_IN_KEY_DROPDOWNS)
+Down = UI.createLabel(dpadSection, "Down")
+downDPadDropdown = UI.createDropdown(dpadSection, fullKeys, ENABLE_TYPING_IN_KEY_DROPDOWNS)
+leftLabel = UI.createLabel(dpadSection, "Left")
+leftDpadDropdown = UI.createDropdown(dpadSection, fullKeys, ENABLE_TYPING_IN_KEY_DROPDOWNS)
+def saveconf():
+    from tkinter import filedialog
+    savedFile = filedialog.asksaveasfile(
+        title="Save your config..."
+    )
+def loadconf():
+    pass
+saveconfbtn = UI.createButton(editorOptionsSection, "Save File", saveconf)
+loadconfbtn = UI.createButton(editorOptionsSection, "Load File", loadconf)
 
 root.mainloop()

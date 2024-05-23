@@ -7,6 +7,8 @@ import keyboard
 import pygame
 import os
 
+os.system("cls")
+
 VERSION = "a1.0"
 
 # Classes
@@ -37,14 +39,17 @@ class UIModule():
         section.pack(fill='both', expand="no", padx=5, pady=5)
         return section
 
-    def createButton(self, master, text, callback):
+    def createButton(self, master, text, callback, inline):
         btn = ttk.Button(master, text=text, command=callback)
-        btn.pack(anchor="w", padx=1)
+        if inline == False:
+            btn.pack(anchor="w", padx=1)
+        elif inline == True:
+            btn.pack(anchor="w", side=tk.LEFT, padx=1)
         return btn
     
     def createBox(self, master, text, var, callback):
         var = tk.BooleanVar()
-        var.set(False)
+        var.set(True)
         box = ttk.Checkbutton(master=master, text=text, variable=var, command=callback)
         box.pack()
         
@@ -68,12 +73,9 @@ def checkForControllers():
             if "PS4 Controller" in controller.get_name():
                 controllers.append([f"Controller {i + 1}", controller])
     else:
-        os.system("cls")
         print(f"No controllers found.{Fore.WHITE}")
         return False
-    
-    os.system("cls")
-    
+        
     print(f"Controller(s) found.{Fore.WHITE}")
     
     return controllers
@@ -81,8 +83,6 @@ def checkForControllers():
 def test():
     print(f"{Fore.CYAN}Test{Fore.WHITE}")
 
-def testBox():
-    print("test")
     
 # Variables
 controllers = checkForControllers()
@@ -90,6 +90,9 @@ root = tk.Tk()
 notebook = ttk.Notebook(root)
 
 VARIABLE = False
+
+def testBox():
+    print("test", VARIABLE)
 
 UI = UIModule(master=root, notebook=notebook, title="PCZen")
 
@@ -99,16 +102,8 @@ configurationTab = UI.createTab("Controller Configuration")
 optionsTab = UI.createTab("Settings")
 aboutTab = UI.createTab("About/Info")
 
-testSection = UI.createSection(loaderTab, "test")
-
-testBox, val = UI.createBox(testSection, "Test Box", VARIABLE, testBox)
-print(str(val))
-testBtn = UI.createButton(testSection, "test button", test)
-testLabel = UI.createLabel(testSection, "test")
-
-versionLabel = UI.createLabel(aboutTab, f"PCZen version {VERSION}")
-creditLabel = UI.createLabel(aboutTab, f"Developed by yonzro1610.")
-noticeLabel = UI.createLabel(aboutTab, f"Anybody else claiming to have made PCZen is lying.")
+UI.createButton(loaderTab, "test", test, False)
+UI.createButton(loaderTab, "test", test, True)
 
 # Main
 os.system("title PCZen")

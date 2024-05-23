@@ -165,11 +165,29 @@ Down = UI.createLabel(dpadSection, "Down")
 downDPadDropdown = UI.createDropdown(dpadSection, fullKeys, ENABLE_TYPING_IN_KEY_DROPDOWNS)
 leftLabel = UI.createLabel(dpadSection, "Left")
 leftDpadDropdown = UI.createDropdown(dpadSection, fullKeys, ENABLE_TYPING_IN_KEY_DROPDOWNS)
+keymap = {
+    "X": xKeyDropdown.get(),
+    "O": circleKeyDropdown.get(),
+    "S": squareKeyDropdown.get(),
+    "T": triangleKeyDropdown.get(),
+    "U": upDpadDropdown.get(),
+    "R": rightDPadDropdown.get(),
+    "D": downDPadDropdown.get(),
+    "L": leftDpadDropdown.get(),
+}   
+def writedata(file):
+    with open(file.name, 'w') as file:
+        for key, value in keymap.items():
+            print(key, value)
+            file.write(f'{key}={value}\n')
 def saveconf():
     from tkinter import filedialog
     savedFile = filedialog.asksaveasfile(
-        title="Save your config..."
+        title="Save your config...",
+        defaultextension=".cfg",
+        filetypes=(("PCZen Config Files", "*.cfg"), ("All files", "*.*"))
     )
+    writedata(savedFile)
 def loadconf():
     pass
 saveconfbtn = UI.createButton(editorOptionsSection, "Save File", saveconf)

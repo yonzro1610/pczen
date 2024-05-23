@@ -14,12 +14,14 @@ def updateconsole():
     os.system("cls")
 updateconsole()
 
-# Check for Controllers
-print(f"{Fore.CYAN}Checking for PS4 Controllers...")
-controller = checkforcontroller.main()
-if not controller:
-    print("No controllers detected...")
-else:
-    print("PS4 Controller Detected!")
+def main():
 
-print(f"{Fore.WHITE}")
+    print(f"{Fore.CYAN}Checking for PS4 Controllers...")
+    controller = checkforcontroller.main()
+    if not controller:
+        print("No controllers detected...")
+    else:
+        print("PS4 Controller Detected!")
+
+    print(f"{Fore.WHITE}")
+main()

@@ -78,8 +78,14 @@ def checkForControllers():
     
     return controllers
 def checkForConfigs():
-    configsFolder = './configs'
+    files = os.listdir('./configs')
+    configs = []
     
+    for file in files:
+        if file.endswith('.cfg'):
+            configs.append(file[:-4])
+    
+    return configs
     
 # Main
 root = tk.Tk()
@@ -94,5 +100,14 @@ optionTab = UI.createTab("Settings")
 
 loaderSection = UI.createSection(loaderTab, "Loader")
 controlSection = UI.createSection(loaderTab, "Controls")
+
+def updateConfig(event):
+    value = configDropdown.get()
+    value = value + ".cfg"
+    
+    with open('./configs/' + value, 'r') as file:
+        print(file.read())
+        
+configDropdown = UI.createDropdown(loaderSection, checkForConfigs(), updateConfig)
 
 root.mainloop()

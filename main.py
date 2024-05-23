@@ -7,6 +7,8 @@ import keyboard
 import pygame
 import os
 
+VERSION = "a10"
+
 # Classes
 class UIModule():
     def __init__(self, master, notebook, title):
@@ -24,6 +26,10 @@ class UIModule():
         self.notebook.add(tab, text=name)
         
         return tab
+
+    def createLabel(self, tab, text):
+        label = tk.Label(tab, text=text)
+        label.pack(padx=2, pady=2, anchor="w")
 
 # Functions
 def checkForControllers():
@@ -63,7 +69,10 @@ loaderTab = UI.createTab("Macro Loader")
 editTab = UI.createTab("Macro Editor")
 configurationTab = UI.createTab("Controller Configuration")
 optionsTab = UI.createTab("Settings")
-aboutTab = UI.createTab("About/FAQ")
+aboutTab = UI.createTab("About/Info")
+
+testLabel = UI.createLabel(aboutTab, f"PCZen version {VERSION}")
+testLabel2 = UI.createLabel(aboutTab, f"PCZen version {VERSION}")
 
 # Main
 os.system("title PCZen")

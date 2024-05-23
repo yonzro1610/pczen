@@ -6,4 +6,3 @@ from tkinter import ttk
 import maketab
 
 maketab
-

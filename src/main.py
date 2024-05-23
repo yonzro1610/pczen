@@ -1,32 +1,25 @@
-# Sys
+import os
 import sys
 sys.path.append("./scripts/modules")
 sys.path.append("./modules/interface")
 sys.path.append("./scripts")
-
-# Libraries
+import pygame
 from colorama import Fore
 import checkforcontroller
 import keyboard
-import pygame
-import ui
-import os
+import win32gui
 
-# Clear console
-os.system("@echo off")
-os.system("cls")
+def updateconsole():
+    os.system("@echo off")
+    os.system("cls")
+updateconsole()
 
 # Check for Controllers
 print(f"{Fore.CYAN}Checking for PS4 Controllers...")
 controller = checkforcontroller.main()
-if controller == False:
+if not controller:
     print("No controllers detected...")
 else:
     print("PS4 Controller Detected!")
 
 print(f"{Fore.WHITE}")
-
-# Minimize
-import win32gui
-win = win32gui.GetForegroundWindow()
-win32gui.ShowWindow(win, 6)

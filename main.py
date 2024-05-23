@@ -14,7 +14,7 @@ class UIModule():
         self.notebook = notebook
         
         self.master.title(title)
-        self.master.minsize(1, 300)
+        self.master.minsize(1, 250)
         self.master.resizable(False, False)
         
         notebook.pack(expand=True, fill="both", padx=3, pady=3)

@@ -7,7 +7,7 @@ import keyboard
 import pygame
 import os
 
-VERSION = "a10"
+VERSION = "a1.0"
 
 # Classes
 class UIModule():
@@ -29,7 +29,18 @@ class UIModule():
 
     def createLabel(self, tab, text):
         label = tk.Label(tab, text=text)
-        label.pack(padx=2, pady=2, anchor="w")
+        label.pack(padx=1, pady=0, anchor="w")
+        return label
+
+    def createSection(self, tab, title):
+        section = ttk.LabelFrame(tab, text=title)
+        section.pack(fill='both', expand="no", padx=5, pady=5)
+        return section
+
+    def createButton(self, master, text, callback):
+        btn = ttk.Button(master, text=text, command=callback)
+        btn.pack(anchor="w", padx=1)
+        return btn
 
 # Functions
 def checkForControllers():
@@ -59,6 +70,9 @@ def checkForControllers():
     
     return controllers
 
+def test():
+    print("Test")
+
 # Variables
 root = tk.Tk()
 notebook = ttk.Notebook(root)
@@ -71,8 +85,14 @@ configurationTab = UI.createTab("Controller Configuration")
 optionsTab = UI.createTab("Settings")
 aboutTab = UI.createTab("About/Info")
 
-testLabel = UI.createLabel(aboutTab, f"PCZen version {VERSION}")
-testLabel2 = UI.createLabel(aboutTab, f"PCZen version {VERSION}")
+testSection = UI.createSection(loaderTab, "test")
+
+testBtn = UI.createButton(testSection, "test button", test)
+testLabel = UI.createLabel(testSection, "test")
+
+versionLabel = UI.createLabel(aboutTab, f"PCZen version {VERSION}")
+creditLabel = UI.createLabel(aboutTab, f"Developed by yonzro1610.")
+noticeLabel = UI.createLabel(aboutTab, f"Anybody else claiming to have made PCZen is lying.")
 
 # Main
 os.system("title PCZen")

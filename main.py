@@ -43,8 +43,12 @@ class UIModule():
         return btn
     
     def createBox(self, master, text, var, callback):
-        var = False
+        var = tk.BooleanVar()
+        var.set(False)
         box = ttk.Checkbutton(master=master, text=text, variable=var, command=callback)
+        box.pack()
+        
+        return box
 
 # Functions
 def checkForControllers():
@@ -77,10 +81,15 @@ def checkForControllers():
 def test():
     print(f"{Fore.CYAN}Test{Fore.WHITE}")
 
+def testBox():
+    print("test")
+    
 # Variables
 controllers = checkForControllers()
 root = tk.Tk()
 notebook = ttk.Notebook(root)
+
+VARIABLE = False
 
 UI = UIModule(master=root, notebook=notebook, title="PCZen")
 
@@ -92,6 +101,8 @@ aboutTab = UI.createTab("About/Info")
 
 testSection = UI.createSection(loaderTab, "test")
 
+testBox, val = UI.createBox(testSection, "Test Box", VARIABLE, testBox)
+print(str(val))
 testBtn = UI.createButton(testSection, "test button", test)
 testLabel = UI.createLabel(testSection, "test")
 
@@ -101,6 +112,5 @@ noticeLabel = UI.createLabel(aboutTab, f"Anybody else claiming to have made PCZe
 
 # Main
 os.system("title PCZen")
-os.system("cls")
 
 root.mainloop()

@@ -8,3 +8,6 @@ import pygame
 Fore = colorama.Fore
 ttk = tkinter.ttk
 
+# Functions
+
+# Main Logic

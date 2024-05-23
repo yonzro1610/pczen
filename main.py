@@ -32,8 +32,8 @@ class UIModule():
         section.pack(fill='both', expand='no', padx=3, pady=2)
         return section
 
-    def createLabel(self, tab, text):
-        label = tk.Label(tab, text=text)
+    def createLabel(self, tab, text, fg="black"):
+        label = tk.Label(tab, text=text, fg=fg)
         label.pack(anchor="w")
         return label
     
@@ -44,7 +44,7 @@ class UIModule():
         
     def createBox(self, tab, text, var, callback):
         box = ttk.Checkbutton(tab, text=text, command=callback, variable=var)
-        box.pack(anchor="w")
+        box.pack(anchor="w", pady=2, padx=2)
     
     def createDropdown(self, tab, opts, callback):
         dropdown = ttk.Combobox(tab, state="readonly", values=opts)
@@ -86,7 +86,9 @@ def checkForConfigs():
             configs.append(file[:-4])
     
     return configs
-    
+def openConfigsFolder():
+    os.system('explorer .\\configs\\')
+
 # Main
 root = tk.Tk()
 notebook = ttk.Notebook(root)
@@ -98,16 +100,27 @@ editorTab = UI.createTab("Macro Editor")
 configTab = UI.createTab("Controller Configuration")
 optionTab = UI.createTab("Settings")
 
+# Loader
 loaderSection = UI.createSection(loaderTab, "Loader")
-controlSection = UI.createSection(loaderTab, "Controls")
+
+currentlyLoadedLabel = UI.createLabel(loaderSection, "Currently selected: none")
 
 def updateConfig(event):
     value = configDropdown.get()
     value = value + ".cfg"
     
+    currentlyLoadedLabel.config(text="Currently selected: " + value)
+    
     with open('./configs/' + value, 'r') as file:
         print(file.read())
-        
 configDropdown = UI.createDropdown(loaderSection, checkForConfigs(), updateConfig)
+
+openFolderButton = UI.createButton(loaderSection, "Open Configs Folder", openConfigsFolder)
+
+# Macro Controls
+controlSection = UI.createSection(loaderTab, "Controls")
+
+statusLabel = UI.createLabel(controlSection, "Stopped", "red")
+
 
 root.mainloop()

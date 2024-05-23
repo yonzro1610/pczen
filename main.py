@@ -41,6 +41,10 @@ class UIModule():
         btn = ttk.Button(master, text=text, command=callback)
         btn.pack(anchor="w", padx=1)
         return btn
+    
+    def createBox(self, master, text, var, callback):
+        var = False
+        box = ttk.Checkbutton(master=master, text=text, variable=var, command=callback)
 
 # Functions
 def checkForControllers():
@@ -71,9 +75,10 @@ def checkForControllers():
     return controllers
 
 def test():
-    print("Test")
+    print(f"{Fore.CYAN}Test{Fore.WHITE}")
 
 # Variables
+controllers = checkForControllers()
 root = tk.Tk()
 notebook = ttk.Notebook(root)
 
@@ -97,7 +102,5 @@ noticeLabel = UI.createLabel(aboutTab, f"Anybody else claiming to have made PCZe
 # Main
 os.system("title PCZen")
 os.system("cls")
-
-controllers = checkForControllers()
 
 root.mainloop()

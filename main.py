@@ -3,6 +3,7 @@ from colorama import Fore
 from tkinter import ttk
 import tkinter as tk
 import pandas as pd
+import pyautogui
 import keyboard
 import pygame
 import os
@@ -46,8 +47,11 @@ class UIModule():
         box = ttk.Checkbutton(tab, text=text, command=callback, variable=var)
         box.pack(anchor="w", pady=2, padx=2)
     
-    def createDropdown(self, tab, opts, callback):
-        dropdown = ttk.Combobox(tab, state="readonly", values=opts)
+    def createDropdown(self, tab, opts, callback=None, typeable=False):
+        if typeable == False:
+            dropdown = ttk.Combobox(tab, state="readonly", values=opts)
+        else:
+            dropdown = ttk.Combobox(tab, values=opts, takefocus=False)
         dropdown.set(opts[0])
         dropdown.bind("<<ComboboxSelected>>", callback)
         dropdown.pack(anchor='w', pady=2, padx=2)
@@ -90,6 +94,8 @@ def openConfigsFolder():
     os.system('explorer .\\configs\\')
 
 # Main
+ENABLE_TYPING_IN_KEY_DROPDOWNS = False
+
 root = tk.Tk()
 notebook = ttk.Notebook(root)
 
@@ -102,9 +108,7 @@ optionTab = UI.createTab("Settings")
 
 # Loader
 loaderSection = UI.createSection(loaderTab, "Loader")
-
 currentlyLoadedLabel = UI.createLabel(loaderSection, "Currently selected: none")
-
 def updateConfig(event):
     value = configDropdown.get()
     value = value + ".cfg"
@@ -119,16 +123,12 @@ def updateConfig(event):
     else:
         from tkinter import messagebox
         messagebox.showwarning('Stop macro', 'You need to stop the current running macro before changing your config.')
-        
 configDropdown = UI.createDropdown(loaderSection, checkForConfigs(), updateConfig)
-
 openFolderButton = UI.createButton(loaderSection, "Open Configs Folder", openConfigsFolder)
 
 # Macro Controls
 controlSection = UI.createSection(loaderTab, "Controls")
-
 statusLabel = UI.createLabel(controlSection, "Stopped", "red")
-
 def updateStatus():
     if running.get() == True:
         if not currentlyLoadedLabel.cget("text") == "Currently selected: none":
@@ -143,5 +143,15 @@ running = tk.BooleanVar()
 toggleBox = UI.createBox(controlSection, "Toggle Macro", running, updateStatus)
 
 # Editor
+buttonSection = UI.createSection(editorTab, "Buttons")
+triggerSection = UI.createSection(editorTab, "Triggers")
+joystickSection = UI.createSection(editorTab, "Joysticks")
+editorOptionsSection = UI.createSection(editorTab, "Options")
+xlabel = UI.createLabel(buttonSection, "X Binding")
+fullKeys = pyautogui.KEYBOARD_KEYS
+fullKeys.append('None')
+xKeyDropdown = UI.createDropdown(buttonSection, fullKeys, ENABLE_TYPING_IN_KEY_DROPDOWNS)
+circleLabel = UI.createLabel(buttonSection, "Circle Binding")
+circleKeyDropdown = UI.createDropdown(buttonSection, fullKeys, ENABLE_TYPING_IN_KEY_DROPDOWNS)
 
 root.mainloop()

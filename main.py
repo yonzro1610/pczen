@@ -14,7 +14,7 @@ class UIModule():
         self.notebook = notebook
         
         self.master.title(title)
-        self.master.geometry("700x350")
+        self.master.minsize(1, 250)
         self.master.resizable(False, False)
         
         notebook.pack(expand=True, fill="both", padx=3, pady=3)
@@ -32,7 +32,7 @@ def checkForControllers():
 
     controllerCount = pygame.joystick.get_count()
     
-    controllers = {}
+    controllers = []
     
     print(f"{Fore.CYAN}Checking for PS4 Controllers...")
     
@@ -41,11 +41,7 @@ def checkForControllers():
             controller = pygame.joystick.Joystick(i)
             
             if "PS4 Controller" in controller.get_name():
-                controllerInfo = {
-                    f"Controller {i}": controller
-                }
-                
-                controllers.append(controllerInfo)
+                controllers.append([f"Controller {i + 1}", controller])
     else:
         os.system("cls")
         print(f"No controllers found.{Fore.WHITE}")
@@ -62,12 +58,17 @@ root = tk.Tk()
 notebook = ttk.Notebook(root)
 
 UI = UIModule(master=root, notebook=notebook, title="PCZen")
-mainTab = UI.createTab("Main")
 
+loaderTab = UI.createTab("Macro Loader")
+editTab = UI.createTab("Macro Editor")
+configurationTab = UI.createTab("Controller Configuration")
+optionsTab = UI.createTab("Settings")
+aboutTab = UI.createTab("About/FAQ")
 
 # Main
+os.system("title PCZen")
 os.system("cls")
 
-checkForControllers()
+controllers = checkForControllers()
 
 root.mainloop()

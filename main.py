@@ -149,7 +149,7 @@ joystickSection = UI.createSection(editorTab, "Joysticks")
 editorOptionsSection = UI.createSection(editorTab, "Options")
 xlabel = UI.createLabel(buttonSection, "X Binding")
 fullKeys = pyautogui.KEYBOARD_KEYS
-fullKeys.append('None')
+fullKeys.append('Unmapped')
 xKeyDropdown = UI.createDropdown(buttonSection, fullKeys, ENABLE_TYPING_IN_KEY_DROPDOWNS)
 circleLabel = UI.createLabel(buttonSection, "Circle Binding")
 circleKeyDropdown = UI.createDropdown(buttonSection, fullKeys, ENABLE_TYPING_IN_KEY_DROPDOWNS)

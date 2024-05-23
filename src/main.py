@@ -1,12 +1,15 @@
 # Sys
 import sys
 sys.path.append("./scripts/modules")
+sys.path.append("./modules/interface")
+sys.path.append("./scripts")
 
 # Libraries
 from colorama import Fore
 import checkforcontroller
 import keyboard
 import pygame
+import ui
 import os
 
 # Clear console
@@ -22,8 +25,6 @@ else:
     print("PS4 Controller Detected!")
 
 print(f"{Fore.WHITE}")
-
-
 
 # Minimize
 import win32gui

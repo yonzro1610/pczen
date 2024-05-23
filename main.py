@@ -43,13 +43,14 @@ class UIModule():
 
         
     def createBox(self, tab, text, var, callback):
-        btn = ttk.Button(tab, text=text, command=callback, variable=var)
+        box = ttk.Checkbutton(tab, text=text, command=callback, variable=var)
+        box.pack(anchor="w")
     
     def createDropdown(self, tab, opts, callback):
         dropdown = ttk.Combobox(tab, state="readonly", values=opts)
         dropdown.set(opts[0])
         dropdown.bind("<<ComboboxSelected>>", callback)
-        dropdown.pack(anchor='w', pady=2, padx=2, expand=tk.YES, fill=tk.BOTH)
+        dropdown.pack(anchor='w', pady=2, padx=2)
         return dropdown
 
 # Functions
@@ -76,7 +77,10 @@ def checkForControllers():
     print(f"Controller(s) found.{Fore.WHITE}")
     
     return controllers
-
+def checkForConfigs():
+    configsFolder = './configs'
+    
+    
 # Main
 root = tk.Tk()
 notebook = ttk.Notebook(root)

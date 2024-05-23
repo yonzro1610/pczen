@@ -79,7 +79,7 @@ def checkForControllers():
     return controllers
 def checkForConfigs():
     files = os.listdir('./configs')
-    configs = []
+    configs = ['none']
     
     for file in files:
         if file.endswith('.cfg'):
@@ -109,10 +109,17 @@ def updateConfig(event):
     value = configDropdown.get()
     value = value + ".cfg"
     
-    currentlyLoadedLabel.config(text="Currently selected: " + value)
-    
-    with open('./configs/' + value, 'r') as file:
-        print(file.read())
+    if not statusLabel.cget('fg') == "green" and not configDropdown.get() == "none":
+        currentlyLoadedLabel.config(text="Currently selected: " + value)
+        
+        with open('./configs/' + value, 'r') as file:
+            print(file.read())
+    elif configDropdown.get() == "none" and not statusLabel.cget('fg') == "green":
+        currentlyLoadedLabel.config(text='Currently selected: none')
+    else:
+        from tkinter import messagebox
+        messagebox.showwarning('Stop macro', 'You need to stop the current running macro before changing your config.')
+        
 configDropdown = UI.createDropdown(loaderSection, checkForConfigs(), updateConfig)
 
 openFolderButton = UI.createButton(loaderSection, "Open Configs Folder", openConfigsFolder)
@@ -122,5 +129,19 @@ controlSection = UI.createSection(loaderTab, "Controls")
 
 statusLabel = UI.createLabel(controlSection, "Stopped", "red")
 
+def updateStatus():
+    if running.get() == True:
+        if not currentlyLoadedLabel.cget("text") == "Currently selected: none":
+            statusLabel.config(text="Running", fg="green")
+        else:
+            running.set(False)
+            from tkinter import messagebox
+            messagebox.showwarning("Select a config", "In order to start your macro, you must select a config first.")
+    elif running.get() == False:
+        statusLabel.config(text="Stopped", fg="red")
+running = tk.BooleanVar()
+toggleBox = UI.createBox(controlSection, "Toggle Macro", running, updateStatus)
+
+# Editor
 
 root.mainloop()
